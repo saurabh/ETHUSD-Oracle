@@ -23,5 +23,3 @@ const deploy = async () => {
 };
 
 deploy();
-
-module.exports = web3;
