@@ -17,11 +17,8 @@ setInterval(async () => {
 // Fetches the latest ETHUSD price from the Contract
 app.get('/api/v1/quotes', async (req, res) => {
   try {
-    const accounts = await getAccounts();
     const oracleObj = oracleObjSetup();
-    let currentPrice = await oracleObj.methods
-      .currentPrice()
-      .call({ from: accounts[0] });
+    let currentPrice = await oracleObj.methods.currentPrice().call();
     currentPrice /= 10 ** 9;
 
     console.log(currentPrice);
@@ -40,7 +37,9 @@ app.post('/api/v1/quotes', async (req, res) => {
     const accounts = await getAccounts();
     const oracleObj = oracleObjSetup();
 
-    const tx = await oracleObj.methods.updatePrice(price).send({ from: accounts[0] });
+    const tx = await oracleObj.methods
+      .updatePrice(price)
+      .send({ from: accounts[0] });
     console.log(tx);
     res.status(200).send('Done');
   } catch (err) {
