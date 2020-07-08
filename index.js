@@ -23,7 +23,9 @@ app.get('/api/v1/quotes', async (req, res) => {
       .currentPrice()
       .call({ from: accounts[0] });
     currentPrice /= 10 ** 9;
-    res.send(currentPrice);
+
+    console.log(currentPrice);
+    res.status(200).send('Done');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
@@ -38,7 +40,9 @@ app.post('/api/v1/quotes', async (req, res) => {
     const accounts = await getAccounts();
     const oracleObj = oracleObjSetup();
 
-    await oracleObj.methods.updatePrice(price).send({ from: accounts[0] });
+    const tx = await oracleObj.methods.updatePrice(price).send({ from: accounts[0] });
+    console.log(tx);
+    res.status(200).send('Done');
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
